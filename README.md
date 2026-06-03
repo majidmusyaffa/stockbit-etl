@@ -6,17 +6,20 @@ Created an ETL pipeline that takes daily market activity of a stock from Stockbi
 
 ## Overview
 
-<h1><img src="https://github.com/majidmusyaffa/stockbit-etl/blob/main/assets/saham.webp"></h1>
+<h1><img src="https://github.com/majidmusyaffa/stockbit-etl/blob/main/assets/etl_diagram.png"></h1>
 
 The ETL Pipeline consist of 3 steps:
 
 - Extract
+
 Data is extracted from Stockbit internal API where the access token needs to be copied manually everyday to the ```credentials.json``` before running the pipeline. The API will return daily market summary of a selected stock where the date range can be changed based on requirement, the result will be transformed into pandas dataframe.
 
 - Transform
+
 The data transformation consist of fixing data types for certain date column, re-sorting the data based on ascending date, and calculate new columns to see the MACD (Moving Average Convergence Divergence) of the data.
 
 - Load
+
 After Extract & Transform process is done in multiple stocks data, the data will be merged and loaded to Google BigQuery using GCP service account. The dataset and table will be checked first ...
 
 
