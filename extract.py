@@ -3,13 +3,16 @@ import json
 import pandas as pd
 pd.set_option('display.max_columns', None)
 
-def get_stock_data(auth_token, ticker) -> pd.DataFrame:
+def get_stock_data(ticker:str, start:str, end:str, cred_path:str) -> pd.DataFrame:
+
+    with open(cred_path, 'r') as f:
+        auth_token = json.load(f)['auth_token']
 
     url = f'https://exodus.stockbit.com/chartbit/{ticker}/price/daily'
 
     parameters = {
-        'from': '2024-06-22',
-        'to': '2023-06-21',
+        'from': end,
+        'to': start,
         'limit': 0
     }
 
@@ -21,15 +24,16 @@ def get_stock_data(auth_token, ticker) -> pd.DataFrame:
     }
 
     response = requests.get(url, params=parameters, headers=headers)
+    print(response.text)
     data = response.json()['data']['chartbit']
     df = pd.DataFrame(data)
     df['Ticker'] = [ticker for i in range(len(df))]
-    
+
     return df
 
 if __name__ == '__main__':
     with open('credential.json', 'r') as f:
         auth_token = json.load(f)['auth_token']
-        print(auth_token)
-        df = get_stock_data(auth_token, ticker='BRIS')
-        print(df['close'].values)
+        # print(auth_token)
+        df = get_stock_data(ticker='BRIS', start='2020-01-01', end='2026-06-03', cred_path='credential.json')
+        print(f'len df: {len(df)}')

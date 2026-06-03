@@ -2,28 +2,25 @@ import pandas as pd
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
-service_account_path = 'gcp_service_acc_cred.json'
-credentials = service_account.Credentials.from_service_account_file(service_account_path)
-project_id = credentials.project_id
-client = bigquery.Client(
-    project=project_id,
-    credentials=credentials
-)
-dataset_id = f'{project_id}.project_scraping'
-table_id = f'{dataset_id}.saham'
+def load_to_gcp(df:pd.DataFrame, service_account_path:str) -> None:
 
-def load_to_gcp(df):
+    credentials = service_account.Credentials.from_service_account_file(service_account_path)
+    project_id = credentials.project_id
+    client = bigquery.Client(
+        project=project_id,
+        credentials=credentials
+    )
+    dataset_id = f'{project_id}.project_scraping'
+    table_id = f'{dataset_id}.saham'
 
     # Create dataset if not exist
-    
     dataset = bigquery.Dataset(dataset_id)
     client.create_dataset(dataset=dataset, exists_ok=True)
 
     # Create table if not exist
-    #client.delete_table(table_id, not_found_ok=True)
-
+    # client.delete_table(table_id, not_found_ok=True)
     schema = [
-        bigquery.SchemaField('date', 'STRING'),
+        bigquery.SchemaField('date', 'DATE'),
         bigquery.SchemaField('unixdate', 'INTEGER'),
         bigquery.SchemaField('open', 'INTEGER'),
         bigquery.SchemaField('high', 'INTEGER'),
@@ -58,4 +55,4 @@ def load_to_gcp(df):
 
 if __name__ == '__main__':
     df = pd.read_csv('test.csv')
-    load_to_gcp(df)
+    load_to_gcp(df, 'gcp_service_acc_cred.json')

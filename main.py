@@ -1,12 +1,48 @@
+import time
+import json
+import random
 import pandas as pd
+from datetime import date
 from extract import get_stock_data
+from transform import transform_data
+from load import load_to_gcp
 
-df = pd.DataFrame()
+
+# List of stocks I want to put in watchlist
+list_ticker = ['BRIS', 'ANTM']
+
+# Filter the date range
+start_date = '2020-01-01'
+end_date = str(date.today())
+print(end_date)
+
+# Auth token from internal Stockbit API
+with open('credential.json', 'r') as f:
+    auth_token = json.load(f)['auth_token']
+
+# GCP service account credential path
+gcp_cred_path = 'gcp_service_acc_cred.json'
+stockbit_cred_path = 'credential.json'
+
+# Dataframe to collect all of the data
+all_df = pd.DataFrame()
+
+for ticker in list_ticker:
+
+    # Extract
+    df = get_stock_data(ticker, start_date, end_date, stockbit_cred_path)
+    print(df.info())
+    # Transform
+    transformed_df = transform_data(df)
+
+    # Combine each dataframe
+    all_df = pd.concat([all_df, transformed_df])
+
+    time.sleep(1 + random.gauss(0, 0.1))
+
+    
 
 
-print(df.head(5))
-print(df.info())
-
-df['date'] = pd.to_datetime(df['date'])
-
-print(df.info())
+# Load
+print(all_df.info())
+load_to_gcp(all_df, gcp_cred_path)

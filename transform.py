@@ -20,6 +20,7 @@ def transform_data(df:pd.DataFrame) -> pd.DataFrame:
 
     # Change data type of date from string to datetime
     df['date'] = pd.to_datetime(df['date'])
+    df['date'] = df['date'].dt.date
 
     # Sort date to ascending because the original data from the API source are descending
     df.sort_values('date', ascending=True, inplace=True)
@@ -45,7 +46,6 @@ if __name__ == '__main__':
     import json
     with open('credential.json', 'r') as f:
         auth_token = json.load(f)['auth_token']
-        print(auth_token)
-        df = get_stock_data(auth_token, 'BRIS')
+        df = get_stock_data(ticker='BRIS', start='2025-01-01',end='2025-02-01',cred_path='credential.json')
         transformed_df = transform_data(df)
         transformed_df.head(10).to_csv('test.csv')
