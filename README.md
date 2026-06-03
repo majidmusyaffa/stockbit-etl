@@ -1,4 +1,4 @@
-<h1><img src="https://github.com/fatiando/pooch/raw/main/doc/_static/readme-banner.png" alt="Pooch: A friend to fetch your data files"></h1>
+<h1><img src="https://github.com/majidmusyaffa/stockbit-etl/blob/main/assets/saham.webp"></h1>
 
 # Stockbit ETL
 
