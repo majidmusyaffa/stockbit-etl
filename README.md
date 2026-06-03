@@ -1,3 +1,5 @@
+<h1><img src="https://github.com/fatiando/pooch/raw/main/doc/_static/readme-banner.png" alt="Pooch: A friend to fetch your data files"></h1>
+
 # Stockbit ETL
 
 ETL pipeline untuk mengambil data saham dan menyimpannya ke Google BigQuery.
