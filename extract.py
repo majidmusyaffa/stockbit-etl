@@ -23,17 +23,14 @@ def get_stock_data(ticker:str, start:str, end:str, cred_path:str) -> pd.DataFram
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36'    
     }
 
+    print(f'Extracting {ticker}...')
+
     response = requests.get(url, params=parameters, headers=headers)
-    print(response.text)
     data = response.json()['data']['chartbit']
     df = pd.DataFrame(data)
     df['Ticker'] = [ticker for i in range(len(df))]
 
+    print(f'Collected {len(df)} records.')
+
     return df
 
-if __name__ == '__main__':
-    with open('credential.json', 'r') as f:
-        auth_token = json.load(f)['auth_token']
-        # print(auth_token)
-        df = get_stock_data(ticker='BRIS', start='2020-01-01', end='2026-06-03', cred_path='credential.json')
-        print(f'len df: {len(df)}')

@@ -11,14 +11,13 @@ def load_to_gcp(df:pd.DataFrame, service_account_path:str) -> None:
         credentials=credentials
     )
     dataset_id = f'{project_id}.project_scraping'
-    table_id = f'{dataset_id}.saham'
+    table_id = f'{dataset_id}.daily'
 
     # Create dataset if not exist
     dataset = bigquery.Dataset(dataset_id)
     client.create_dataset(dataset=dataset, exists_ok=True)
 
     # Create table if not exist
-    # client.delete_table(table_id, not_found_ok=True)
     schema = [
         bigquery.SchemaField('date', 'DATE'),
         bigquery.SchemaField('unixdate', 'INTEGER'),
@@ -52,7 +51,3 @@ def load_to_gcp(df:pd.DataFrame, service_account_path:str) -> None:
     job.result()
 
     print(f"Loaded {job.output_rows} rows")
-
-if __name__ == '__main__':
-    df = pd.read_csv('test.csv')
-    load_to_gcp(df, 'gcp_service_acc_cred.json')

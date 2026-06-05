@@ -16,12 +16,11 @@ Data is extracted from Stockbit internal API where the access token needs to be 
 
 - Transform
 
-The data transformation consist of fixing data types for certain date column, re-sorting the data based on ascending date, and calculate new columns to see the MACD (Moving Average Convergence Divergence) of the data.
+The data transformation consist of fixing data types for certain date column, re-sorting the data based on ascending date, and calculate new columns to see the daily MACD (Moving Average Convergence Divergence) value of the data.
 
 - Load
 
-After Extract & Transform process is done in multiple stocks data, the data will be merged and loaded to Google BigQuery using GCP service account. The dataset and table will be checked first ...
-
+After Extract & Transform process is done in multiple stocks data, the data will be merged and loaded to Google BigQuery with GCP service account. The dataset and table are already exist, upload data to the table, else define the table schema and create the dataset and table.
 
 ## Features
 

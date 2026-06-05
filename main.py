@@ -9,16 +9,11 @@ from load import load_to_gcp
 
 
 # List of stocks I want to put in watchlist
-list_ticker = ['BRIS', 'ANTM']
+list_ticker = ['BRIS', 'ANTM', 'TLKM', 'AMRT']
 
 # Filter the date range
 start_date = '2020-01-01'
 end_date = str(date.today())
-print(end_date)
-
-# Auth token from internal Stockbit API
-with open('credential.json', 'r') as f:
-    auth_token = json.load(f)['auth_token']
 
 # GCP service account credential path
 gcp_cred_path = 'gcp_service_acc_cred.json'
@@ -31,7 +26,7 @@ for ticker in list_ticker:
 
     # Extract
     df = get_stock_data(ticker, start_date, end_date, stockbit_cred_path)
-    print(df.info())
+
     # Transform
     transformed_df = transform_data(df)
 
@@ -40,9 +35,5 @@ for ticker in list_ticker:
 
     time.sleep(1 + random.gauss(0, 0.1))
 
-    
-
-
 # Load
-print(all_df.info())
 load_to_gcp(all_df, gcp_cred_path)

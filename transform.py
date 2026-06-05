@@ -18,6 +18,8 @@ def generate_EMA_sequence(price_data, period: int) -> list:
 
 def transform_data(df:pd.DataFrame) -> pd.DataFrame:
 
+    print(f'Transforming {df["Ticker"].iloc[0]}')
+
     # Change data type of date from string to datetime
     df['date'] = pd.to_datetime(df['date'])
     df['date'] = df['date'].dt.date
@@ -40,12 +42,3 @@ def transform_data(df:pd.DataFrame) -> pd.DataFrame:
     df['MACD_difference'] = list_MACD_difference
 
     return df
-
-if __name__ == '__main__':
-    from extract import get_stock_data
-    import json
-    with open('credential.json', 'r') as f:
-        auth_token = json.load(f)['auth_token']
-        df = get_stock_data(ticker='BRIS', start='2025-01-01',end='2025-02-01',cred_path='credential.json')
-        transformed_df = transform_data(df)
-        transformed_df.head(10).to_csv('test.csv')
