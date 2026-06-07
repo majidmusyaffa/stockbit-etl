@@ -51,21 +51,44 @@ pip install -r requirements.txt
 
 ## Configuration
 
-Buat file credential Google Cloud dan simpan di lokasi yang aman.
+Create json file to store your stockbit and GCP service account credentials. I store my stockbit's acces token in ```credential.json``` and my GCP service account credential in ```gcp_service_acc_cred.json```.
 
-Contoh:
-
-```text
-credentials/service-account.json
+My ```credential.json``` file would be like this:
+```json
+{
+    "access_token": "eyJhbGciOiJSUzI1NiIsImtp..."
+}
 ```
 
-File tersebut tidak disertakan dalam repository.
+And the GCP service account credential in IAM & Admin > Service Accounts > (Choose one of your service account) > Keys > Add keys, it should be like this:
+
+```json
+{
+  "type": "service_account",
+  "project_id": "project-id",
+  "private_key_id": "a67ff1f...",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nHIIEvgIBAD...-----END PRIVATE KEY-----\n",
+  "client_email": "service-acc-name@project-id.iam.gserviceaccount.com",
+  "client_id": "12345..",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/service-acc-name%40project-id.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
+```
+
 
 ## Run
 
 ```bash
 python main.py
 ```
+## Result
+
+<h1><img src="https://github.com/majidmusyaffa/stockbit-etl/blob/main/assets/result.png"></h1>
+
+The data is loaded to Google BigQuery.
 
 ## Project Structure
 

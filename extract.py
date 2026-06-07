@@ -1,18 +1,24 @@
 import requests
 import json
 import pandas as pd
-pd.set_option('display.max_columns', None)
+from datetime import date
 
-def get_stock_data(ticker:str, start:str, end:str, cred_path:str) -> pd.DataFrame:
+def get_stock_data(load_type:dict, ticker:str, cred_path:str) -> pd.DataFrame:
 
     with open(cred_path, 'r') as f:
         auth_token = json.load(f)['auth_token']
 
     url = f'https://exodus.stockbit.com/chartbit/{ticker}/price/daily'
 
+    if load_type['type'] == 'FULL_LOAD':
+        start_date = '2020-01-01'
+    elif load_type['type'] == 'INCREMENTAL_LOAD':
+        start_date = load_type['latest_date']
+
+    today = date.today()
     parameters = {
-        'from': end,
-        'to': start,
+        'from': today,
+        'to': start_date,
         'limit': 0
     }
 

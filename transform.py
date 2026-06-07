@@ -18,6 +18,7 @@ def generate_EMA_sequence(price_data, period: int) -> list:
 
 def transform_data(df:pd.DataFrame) -> pd.DataFrame:
 
+    print(df)
     print(f'Transforming {df["Ticker"].iloc[0]}')
 
     # Change data type of date from string to datetime
