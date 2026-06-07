@@ -12,7 +12,7 @@ The ETL Pipeline consist of 3 steps:
 
 - Extract
 
-Data is extracted from Stockbit internal API where the access token needs to be copied manually everyday to the ```credentials.json``` before running the pipeline. The API will return daily market summary of a selected stock where the date range can be changed based on requirement, the result will be transformed into pandas dataframe.
+Data is extracted from Stockbit internal API where the access token needs to be copied manually everyday to the ```credentials.json``` before running the pipeline. The API will return daily market summary of a selected stock where the date range can be changed based on requirement, the result will be transformed into pandas dataframe. There is two types of extraction: full load & incremental load, if the table is empty, full load will be used, if the table is not empty and the latest date in the data is not the latest business date, incremental load will be used.
 
 - Transform
 
@@ -39,7 +39,7 @@ After Extract & Transform process is done in multiple stocks data, the data will
 Clone repository:
 
 ```bash
-git clone https://github.com/username/stockbit-etl.git
+git clone https://github.com/majidmusyaffa/stockbit-etl.git
 cd stockbit-etl
 ```
 
@@ -84,6 +84,7 @@ And the GCP service account credential in IAM & Admin > Service Accounts > (Choo
 ```bash
 python main.py
 ```
+
 ## Result
 
 <h1><img src="https://github.com/majidmusyaffa/stockbit-etl/blob/main/assets/result.png"></h1>
@@ -94,9 +95,17 @@ The data is loaded to Google BigQuery.
 
 ```text
 stockbit-etl/
-├── data/
-├── src/
+├── assets/
+├── extract.py
+├── transform.py
+├── load.py
+├── main.py
+├── helper.py
+├── test.py
+├── sample.csv
 ├── requirements.txt
+├── credential.json
+├── gcp_service_acc_cred.json
 ├── .gitignore
 └── README.md
 ```
