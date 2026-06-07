@@ -17,7 +17,7 @@ warnings.simplefilter(action="ignore", category=FutureWarning)
 # List of stocks I want to put in watchlist
 list_ticker = ['BRIS', 'ANTM', 'TLKM', 'AMRT']
 
-# Filter the date range
+# Filter the date range (start_date is only used for FULL_LOAD)
 start_date = '2020-01-01'
 end_date = str(date.today())
 
@@ -42,7 +42,7 @@ else:
     for ticker in list_ticker:
 
         # Extract
-        df = get_stock_data(load_type, ticker, stockbit_cred_path)
+        df = get_stock_data(load_type, ticker, stockbit_cred_path, start_date)
 
         # Transform
         transformed_df = transform_data(df)
